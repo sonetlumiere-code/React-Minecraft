@@ -1,18 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid'
 
-const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
 const setLocalStorage = (key, value) => window.localStorage.setItem(key, JSON.stringify(value))
 
-const initialState = {
-  // cubes: getLocalStorage('cubes') || [],
-  cubes: [],
-  texture: 'dirt'
-}
+export const saveWorld = createAsyncThunk(
+  'cubes/saveWorld',
+  async (cubes, { getState, dispatch }) => {
+    setLocalStorage('cubes', getState().cubes.cubes)
+  }
+)
 
 export const cubeSlice = createSlice({
   name: 'cubes',
-  initialState,
+  initialState: {
+    cubes: [],
+    texture: 'dirt',
+  },
   reducers: {
     addCube: (state, action) => {    
       const { x, y, z } = action.payload
@@ -29,17 +32,22 @@ export const cubeSlice = createSlice({
         return X !== x || Y !== y || Z !== z
       })
     },
+    setCubes: (state, action) => {
+      state.cubes = action.payload
+    },
     setTexture: (state, action) => {
       state.texture = action.payload
     },
-    // saveWorld: () => {
-    //   setLocalStorage('cubes', prev.cubes)
-    // },
     resetWorld: (state) => {
       state.cubes = [],
       state.texture = 'dirt'
     }
+  },
+  extraReducers: builder => {
+    builder.addCase(saveWorld.fulfilled, (state) => {
+      // This is called when the saveWorld thunk is resolved
+    })
   }
 })
 
-export const { addCube, removeCube, setTexture, resetWorld } = cubeSlice.actions
+export const { addCube, removeCube, setCubes, setTexture, resetWorld } = cubeSlice.actions

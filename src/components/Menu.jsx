@@ -1,4 +1,4 @@
-import { resetWorld } from '../store/slices/cube/cubeSlice'
+import { resetWorld, saveWorld } from '../store/slices/cube/cubeSlice'
 import { useDispatch } from 'react-redux'
 
 const Menu = () => {
@@ -6,9 +6,9 @@ const Menu = () => {
 
 	return (
 		<div className="menu absolute">
-			{/* <button
-				onClick={() => saveWorld()}
-			>Save</button> */}
+			<button
+				onClick={() => dispatch(saveWorld())}
+			>Save</button>
 			<button
 				onClick={() => dispatch(resetWorld())}
 			>Reset</button>
