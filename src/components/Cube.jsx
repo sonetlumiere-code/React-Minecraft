@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { useBox } from "@react-three/cannon"
-import { useStore } from "../hooks/useStore"
+// import { useStore } from "../hooks/useStore"
 import * as textures from "../assets/images/textures"
+import { useDispatch, useSelector } from 'react-redux'
+import { addCube, removeCube } from '../store/slices/cube/cubeSlice'
 
 const Cube = ({ position, texture }) => {
 	const [isHovered, setIsHovered] = useState(false)
@@ -9,8 +11,11 @@ const Cube = ({ position, texture }) => {
 		type: 'Static',
 		position
 	}))
-	const [addCube, removeCube] = useStore((state) => [state.addCube, state.removeCube])
+	// const [addCube, removeCube] = useStore((state) => [state.addCube, state.removeCube])
 	const activeTexture = textures[texture + 'Texture']
+
+	//const { cubes } = useSelector(state => state.cube)
+	const dispatch = useDispatch()
 
 	return (
 		<mesh
@@ -27,31 +32,31 @@ const Cube = ({ position, texture }) => {
 				const clickedFace = Math.floor(e.faceIndex / 2)
 				const { x, y, z } = ref.current.position
 				if (e.altKey) {
-					removeCube(x, y, z)
+					dispatch(removeCube({ x, y, z }))
 					return
 				}
 				else if (clickedFace === 0) {
-					addCube(x + 1, y, z)
+					dispatch(addCube( { x: x + 1, y, z }))
 					return
 				}
 				else if (clickedFace === 1) {
-					addCube(x - 1, y, z)
+					dispatch(addCube({ x: x - 1, y, z }))
 					return
 				}
 				else if (clickedFace === 2) {
-					addCube(x, y + 1, z)
+					dispatch(addCube({ x, y: y + 1, z }))
 					return
 				}
 				else if (clickedFace === 3) {
-					addCube(x, y - 1, z)
+					dispatch(addCube({ x, y: y - 1, z }))
 					return
 				}
 				else if (clickedFace === 4) {
-					addCube(x, y, z + 1)
+					dispatch(addCube({ x, y, z: z + 1 }))
 					return
 				}
 				else if (clickedFace === 5) {
-					addCube(x, y, z - 1)
+					dispatch(addCube({ x, y, z: z - 1 }))
 					return
 				}
 			}}
