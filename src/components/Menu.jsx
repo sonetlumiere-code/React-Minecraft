@@ -1,16 +1,17 @@
-// import { useStore } from "../hooks/useStore"
+import { resetWorld } from '../store/slices/cube/cubeSlice'
+import { useDispatch } from 'react-redux'
 
 const Menu = () => {
-	// const [saveWorld, resetWorld] = useStore((state) => [state.saveWorld, state.resetWorld])
+	const dispatch = useDispatch()
 
 	return (
 		<div className="menu absolute">
 			{/* <button
 				onClick={() => saveWorld()}
-			>Save</button>
+			>Save</button> */}
 			<button
-				onClick={() => resetWorld()}
-			>Reset</button> */}
+				onClick={() => dispatch(resetWorld())}
+			>Reset</button>
 		</div>
 	)
 }

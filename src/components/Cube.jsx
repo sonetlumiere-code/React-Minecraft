@@ -1,9 +1,8 @@
 import { useState } from "react"
 import { useBox } from "@react-three/cannon"
-// import { useStore } from "../hooks/useStore"
-import * as textures from "../assets/images/textures"
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addCube, removeCube } from '../store/slices/cube/cubeSlice'
+import * as textures from "../assets/images/textures"
 
 const Cube = ({ position, texture }) => {
 	const [isHovered, setIsHovered] = useState(false)
@@ -11,10 +10,7 @@ const Cube = ({ position, texture }) => {
 		type: 'Static',
 		position
 	}))
-	// const [addCube, removeCube] = useStore((state) => [state.addCube, state.removeCube])
 	const activeTexture = textures[texture + 'Texture']
-
-	//const { cubes } = useSelector(state => state.cube)
 	const dispatch = useDispatch()
 
 	return (

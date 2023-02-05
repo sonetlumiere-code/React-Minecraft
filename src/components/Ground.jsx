@@ -1,18 +1,13 @@
 import { usePlane } from "@react-three/cannon"
-// import { useStore } from '../hooks/useStore'
 import { groundTexture } from "../assets/images/textures"
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addCube } from '../store/slices/cube/cubeSlice'
 
 const Ground = () => {
 	const [ref] = usePlane(() => ({
 		rotation: [-Math.PI / 2, 0, 0], position: [0, -0.5, 0]
 	}))
-	// const [addCube] = useStore((state) => [state.addCube])
-
-	// const { cubes } = useSelector(state => state.cube)
 	const dispatch = useDispatch()
-
 	groundTexture.repeat.set(100, 100)
 
 	return (
