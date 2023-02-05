@@ -1,7 +1,7 @@
-import { useState } from "react"
-import { useBox } from "@react-three/cannon"
-import { useStore } from "../hooks/useStore"
-import * as textures from "../assets/images/textures"
+import { useContext, useState } from 'react'
+import { StateContext } from '../state/StateContext'
+import { useBox } from '@react-three/cannon'
+import * as textures from '../assets/images/textures'
 
 const Cube = ({ position, texture }) => {
 	const [isHovered, setIsHovered] = useState(false)
@@ -9,8 +9,22 @@ const Cube = ({ position, texture }) => {
 		type: 'Static',
 		position
 	}))
-	const [addCube, removeCube] = useStore((state) => [state.addCube, state.removeCube])
+	const { dispatch } = useContext(StateContext)
 	const activeTexture = textures[texture + 'Texture']
+
+	const addCube = (x, y, z) => {
+		dispatch({ 
+			type: 'ADD_CUBE', 
+			payload: { x, y, z } 
+		})
+	}
+
+	const removeCube = (x, y, z) => {
+		dispatch({ 
+			type: 'REMOVE_CUBE', 
+			payload: { x, y, z }
+		})
+	}
 
 	return (
 		<mesh

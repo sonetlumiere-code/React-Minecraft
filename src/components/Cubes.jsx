@@ -1,11 +1,11 @@
-import { useStore } from '../hooks/useStore'
+import { useContext } from 'react'
+import { StateContext } from '../state/StateContext'
 import Cube from './Cube'
 
 const Cubes = () => {
-	const [cubes] = useStore((state) => [
-		state.cubes
-	])
-	return cubes.map(({ key, pos, texture }) => {
+	const { state } = useContext(StateContext)
+
+	return state.cubes.map(({ key, pos, texture }) => {
 		return (
 			<Cube key={key} position={pos} texture={texture} />
 		)

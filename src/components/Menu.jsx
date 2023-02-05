@@ -1,7 +1,16 @@
-import { useStore } from "../hooks/useStore"
+import { useContext } from "react"
+import { StateContext } from '../state/StateContext'
 
 const Menu = () => {
-	const [saveWorld, resetWorld] = useStore((state) => [state.saveWorld, state.resetWorld])
+	const { dispatch } = useContext(StateContext)
+
+	const saveWorld = () => {
+		dispatch({ type: 'SAVE_WORLD' })
+	}
+
+	const resetWorld = () => {
+		dispatch({ type: 'RESET_WORLD' })
+	}
 
 	return (
 		<div className="menu absolute">

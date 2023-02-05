@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { useStore } from "../hooks/useStore"
-import { useKeyboard } from "../hooks/useKeyboard"
+import { useEffect, useState, useContext } from 'react'
+import { StateContext } from '../state/StateContext'
+import { useKeyboard } from '../hooks/useKeyboard'
 import { dirtImg, grassImg, glassImg, logImg, woodImg } from '../assets/images/images'
 
 const images = {
@@ -12,8 +12,16 @@ const images = {
 }
 
 const TextureSelector = () => {
+	const { state, dispatch } = useContext(StateContext)
 	const [visible, setVisible] = useState(false)
-	const [activeTexture, setTexture] = useStore((state) => [state.texture, state.setTexture])
+
+	const setTexture = (texture) => {
+		dispatch({ 
+			type: 'SET_TEXTURE',
+			payload: texture
+		})
+	}
+
 	const {
 		dirt,
 		grass,
@@ -34,7 +42,7 @@ const TextureSelector = () => {
 		if (pressedTexture) {
 			setTexture(pressedTexture[0])
 		}
-	}, [setTexture, dirt, grass, glass, wood, log])
+	}, [dirt, grass, glass, wood, log])
 
 	useEffect(() => {
 		const visibilityTimeout = setTimeout(() => {
@@ -44,7 +52,7 @@ const TextureSelector = () => {
 		return () => {
 			clearTimeout(visibilityTimeout)
 		}
-	}, [activeTexture])
+	}, [state.texture])
 
 	return visible && (
 		<div className='absolute centered texture-selector'>
@@ -53,7 +61,7 @@ const TextureSelector = () => {
 					key={k}
 					src={src}
 					alt={k}
-					className={`${k === activeTexture ? 'active' : ''}`}
+					className={`${k === state.texture ? 'active' : ''}`}
 				/>)
 			})}
 		</div>

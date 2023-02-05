@@ -1,12 +1,21 @@
-import { usePlane } from "@react-three/cannon"
-import { useStore } from '../hooks/useStore'
-import { groundTexture } from "../assets/images/textures"
+import { useContext } from 'react'
+import { StateContext } from '../state/StateContext'
+import { usePlane } from '@react-three/cannon'
+import { groundTexture } from '../assets/images/textures'
 
 const Ground = () => {
+	const { dispatch } = useContext(StateContext)
+
 	const [ref] = usePlane(() => ({
 		rotation: [-Math.PI / 2, 0, 0], position: [0, -0.5, 0]
 	}))
-	const [addCube] = useStore((state) => [state.addCube])
+
+	const addCube = (x, y, z) => {
+		dispatch({ 
+			type: 'ADD_CUBE', 
+			payload: { x, y, z } 
+		})
+	}
 
 	groundTexture.repeat.set(100, 100)
 
