@@ -13,7 +13,7 @@ import Menu from './components/Menu'
 import './App.css'
 
 function App() {
-  const [state, dispatch] = useReducer(stateReducer, initialState)
+  const [state, dispatch] = useReducer(stateReducer, {}, initialState)
 
   return (
     <>

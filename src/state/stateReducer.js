@@ -3,12 +3,14 @@ import { nanoid } from 'nanoid'
 const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
 const setLocalStorage = (key, value) => window.localStorage.setItem(key, JSON.stringify(value))
 
-export const initialState = {
-	texture: 'dirt',
-	cubes: getLocalStorage('cubes') || [],
+export const initialState = () => {
+	return {
+		texture: 'dirt',
+		cubes: getLocalStorage('cubes') || [],
+	}
 }
 
-export const stateReducer = (state = initialState, action) => {
+export const stateReducer = (state, action) => {
 	switch (action.type) {
 		case 'ADD_CUBE':  
 			return {
